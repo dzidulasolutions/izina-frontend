@@ -3,6 +3,9 @@
 @theme {
   --font-ui: var(--font-google-sans);
   --font-righteous: var(--font-righteous);
+
+  --color-primary: #000000;
+  --color-background: #ffffff;
 }
 
 :root {
