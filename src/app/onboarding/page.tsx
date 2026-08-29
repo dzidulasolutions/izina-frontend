@@ -8,7 +8,7 @@ export default function OnboardingPage() {
 
   const handleStart = () => {
     localStorage.setItem("hasSeenOnboarding", "true");
-    router.replace("/login");
+    router.replace("/register");
   };
 
   return (
@@ -26,8 +26,10 @@ export default function OnboardingPage() {
             patrimoine culturel.
       </p>
       </div>
-
-      <button onClick={handleStart} className="w-100 font-ui bg-primary py-3 text-sm font-semibold text-background">Commencer</button>
+      <div className="flex flex-col gap-2">
+        <button onClick={handleStart} className="w-100 font-ui bg-primary py-3 text-sm font-semibold text-background">Commencer</button>
+        <a href="/login" className="w-100 font-ui text-center bg-primary/10 py-3 text-sm font-semibold text-primary">Se connecter</a>
+      </div>
     </div>
   );
 }
