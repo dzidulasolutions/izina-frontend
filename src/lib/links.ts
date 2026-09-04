@@ -1,4 +1,5 @@
 import {
+    IconlyCalendar,
   IconlyHome,
   IconlyLogo,
   IconlySearch,
@@ -30,6 +31,11 @@ export const LINKS: NavigationLinks[] = [
         name: "surprise",
         href: "/izina/surprise",
         icon: IconlyStar,
+      },
+      {
+        name: "calendrier",
+        href: "/izina/calendrier",
+        icon: IconlyCalendar,
       },
       {
         name: "paramètres",
