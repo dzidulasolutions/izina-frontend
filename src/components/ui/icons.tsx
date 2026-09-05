@@ -358,3 +358,43 @@ export const IconlyLogout = ({ size = 24, color = "#000000" }: IconlyIconProps) 
             </svg>
       )
 }
+
+export const IconlyPlus = ({ size = 24, color = "#000000" }: IconlyIconProps) => {
+      return (
+            <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 1024 1024">
+                  <path d="M0 0h1024v1024H0z" fill="none" />
+                  <path fill={color} d="M482 152h60q8 0 8 8v704q0 8-8 8h-60q-8 0-8-8V160q0-8 8-8" />
+                  <path fill={color} d="M192 474h672q8 0 8 8v60q0 8-8 8H160q-8 0-8-8v-60q0-8 8-8Z" />
+            </svg>
+
+      )
+}
+
+export const IconlyUser = ({ size = 24, color = "#000000" }: IconlyIconProps) => {
+      return (
+            <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24">
+                  <path d="M0 0h24v24H0z" fill="none" />
+                  <path fill={color} fill-rule="evenodd" d="M7.75 7.5a4.25 4.25 0 1 1 8.5 0a4.25 4.25 0 0 1-8.5 0M12 4.75a2.75 2.75 0 1 0 0 5.5a2.75 2.75 0 0 0 0-5.5m-4 10A2.25 2.25 0 0 0 5.75 17v1.188c0 .018.013.034.031.037c4.119.672 8.32.672 12.438 0a.04.04 0 0 0 .031-.037V17A2.25 2.25 0 0 0 16 14.75h-.34a.3.3 0 0 0-.079.012l-.865.283a8.75 8.75 0 0 1-5.432 0l-.866-.283a.3.3 0 0 0-.077-.012zM4.25 17A3.75 3.75 0 0 1 8 13.25h.34q.28.001.544.086l.866.283a7.25 7.25 0 0 0 4.5 0l.866-.283c.175-.057.359-.086.543-.086H16A3.75 3.75 0 0 1 19.75 17v1.188c0 .754-.546 1.396-1.29 1.517a40.1 40.1 0 0 1-12.92 0a1.54 1.54 0 0 1-1.29-1.517z" clip-rule="evenodd" />
+            </svg>
+
+      )
+}
+
+export const IconlyLocation = ({ size = 24, color = "#000000" }) => {
+      return (
+            <svg width={size} height={size} viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path fillRule="evenodd" clipRule="evenodd" d="M14.7366 10.8064C14.7366 9.43255 13.6234 8.31934 12.2505 8.31934C10.8767 8.31934 9.76349 9.43255 9.76349 10.8064C9.76349 12.1792 10.8767 13.2924 12.2505 13.2924C13.6234 13.2924 14.7366 12.1792 14.7366 10.8064Z" stroke={color} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"></path>
+                  <path fillRule="evenodd" clipRule="evenodd" d="M12.2496 21.25C12.2496 21.25 4.97373 16.5108 4.7904 10.5973C4.66167 6.4451 8.12944 2.75008 12.2496 2.75008C16.3697 2.75008 19.8366 6.44504 19.7097 10.5973C19.5253 16.632 12.2496 21.25 12.2496 21.25Z" stroke={color} strokeWidth="1.5" strokeLinecap="round"></path>
+            </svg>
+      )
+}
+
+export const IconlyMore = ({ size = 24, color = "#000000" }) => {
+      return (
+<svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24">
+	<path d="M0 0h24v24H0z" fill="none" />
+	<path fill="none" stroke={color} strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 12a1 1 0 1 0 2 0a1 1 0 0 0-2 0m-6 0a1 1 0 1 0 2 0a1 1 0 0 0-2 0m-6 0a1 1 0 1 0 2 0a1 1 0 0 0-2 0" />
+</svg>
+
+      )
+}

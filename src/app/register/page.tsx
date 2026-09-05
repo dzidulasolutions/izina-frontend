@@ -78,7 +78,7 @@ export default function RegisterPage() {
         message: data.message,
       });
       console.log(data)
-      // router.replace(`/verify-email?email=${encodeURIComponent(email)}`);
+      router.replace(`/verify-email?email=${encodeURIComponent(email)}`);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Une erreur est survenue");
     } finally {

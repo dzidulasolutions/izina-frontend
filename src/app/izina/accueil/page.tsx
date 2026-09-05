@@ -1,0 +1,640 @@
+"use client";
+
+import Stats from "@/src/components/stats/Stats";
+import {
+  IconlyFilter,
+  IconlyNotification,
+  IconlySearch,
+  IconlyHeart,
+  IconlyArrowRight,
+  IconlyChevronRight,
+  IconlyPlus,
+  FiXCircle
+} from "@/src/components/ui/icons";
+import Navbar from "@/src/components/ui/navbar";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { motion, AnimatePresence } from "motion/react";
+import ContributionsCard from "@/src/components/cards/ContributionsCard";
+import NewContributionsCard from "@/src/components/cards/NewContributionsCard";
+
+const categories = [
+  {
+    title: "Masculins",
+    count: 420,
+  },
+  {
+    title: "Féminins",
+    count: 380,
+  },
+  {
+    title: "Mixtes",
+    count: 120,
+  },
+  {
+    title: "Rares",
+    count: 86,
+  },
+  {
+    title: "Populaires",
+    count: 154,
+  },
+  {
+    title: "Modernes",
+    count: 98,
+  },
+];
+
+const featuredNames = [
+  {
+    name: "Kossi",
+    meaning: "Né un dimanche",
+    origin: "Ewe · Togo",
+    gender: "Masculin",
+    popularity: "Très populaire",
+  },
+  {
+    name: "Ama",
+    meaning: "Née un samedi",
+    origin: "Akan · Ghana",
+    gender: "Féminin",
+    popularity: "Populaire",
+  },
+  {
+    name: "Kwame",
+    meaning: "Né un samedi",
+    origin: "Akan · Ghana",
+    gender: "Masculin",
+    popularity: "Très populaire",
+  },
+  {
+    name: "Esi",
+    meaning: "Née un dimanche",
+    origin: "Akan · Ghana",
+    gender: "Féminin",
+    popularity: "Rare",
+  },
+];
+
+const countries = [
+  {
+    name: "Togo",
+    count: 280,
+    flag: "🇹🇬",
+  },
+  {
+    name: "Ghana",
+    count: 340,
+    flag: "🇬🇭",
+  },
+  {
+    name: "Bénin",
+    count: 210,
+    flag: "🇧🇯",
+  },
+  {
+    name: "Nigeria",
+    count: 420,
+    flag: "🇳🇬",
+  },
+];
+
+const recentNames = [
+  {
+    name: "Sena",
+    meaning: "Destinée / grâce",
+    origin: "Ewe",
+  },
+  {
+    name: "Yao",
+    meaning: "Né un jeudi",
+    origin: "Akan",
+  },
+  {
+    name: "Adjoa",
+    meaning: "Née un lundi",
+    origin: "Akan",
+  },
+];
+
+export default function OnboardingPage() {
+  const router = useRouter();
+  const [showContribution, setShowContribution] = useState(false);
+
+  return (
+    <div className="flex h-screen w-full overflow-hidden bg-background" onClick={() => showContribution && setShowContribution(false)}>
+
+      <main className="relative mx-auto flex h-full w-full flex-col overflow-hidden md:w-[80%] lg:w-180">
+
+        {/* =========================CONTENT========================== */}
+
+        <div className="h-full overflow-y-auto overflow-x-hidden px-4 pb-28 pt-4 scrollbar-none">
+
+          {/* =========================HEADER========================== */}
+
+          <header className="flex h-14 w-full items-center justify-between">
+
+            <button
+              type="button"
+              className="flex items-center gap-3"
+            >
+              <span className="flex h-10 w-10 items-center justify-center bg-primary font-righteous text-xl text-background">
+                K
+              </span>
+
+              <div className="flex flex-col gap-1">
+                <h2 className="font-righteous text-md leading-none text-primary">
+                  Kossi
+                </h2>
+
+                <p className="font-ui text-[10px] font-medium uppercase tracking-wider text-gray-500">
+                  Explorer
+                </p>
+              </div>
+            </button>
+
+            <button
+              type="button"
+              className="relative flex h-10 w-10 items-center justify-center bg-primary text-background"
+            >
+              <IconlyNotification
+                size={18}
+                color="currentColor"
+              />
+
+              <span className="absolute -right-1.5 -top-1.5 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 font-ui text-[9px] font-bold text-white">
+                1
+              </span>
+            </button>
+
+          </header>
+
+          {/* =========================SEARCH========================== */}
+
+          <section className="mt-5 flex w-full items-center gap-2">
+
+            <div className="flex h-11 flex-1 px-2 items-center text-primary border border-primary/20 bg-background">
+
+              <IconlySearch
+                size={17}
+                color="currentColor"
+              />
+
+              <input
+                type="text"
+                placeholder="Rechercher un prénom..."
+                className="h-full w-full bg-transparent text-xs px-3 font-ui text-primary outline-none placeholder:text-gray-400"
+              />
+
+            </div>
+
+            <button
+              type="button"
+              className="flex h-11 w-11 shrink-0 items-center justify-center bg-primary text-background"
+            >
+              <IconlyFilter
+                size={18}
+                color="currentColor"
+              />
+            </button>
+
+          </section>
+
+          {/* =========================HERO========================== */}
+
+          <section className="relative mt-5 overflow-hidden bg-primary p-5">
+
+            {/* décoration */}
+
+            <div className="absolute -right-16 -top-16 h-40 w-40 bg-background/10 rounded-full" />
+
+            <div className="absolute -bottom-20 -right-5 h-48 w-48 bg-background/10 rounded-full" />
+
+            <div className="relative z-10 max-w-md">
+
+              <p className="mb-3 font-ui text-[10px] font-semibold uppercase tracking-[0.2em] text-background/50">
+                IZINA · NOM & IDENTITÉ
+              </p>
+
+              <h1 className="max-w-sm font-righteous text-3xl leading-tight text-background">
+                Le prénom raconte une histoire.
+              </h1>
+
+              <p className="mt-3 max-w-sm leading-6 font-ui text-sm text-background/50">
+                Explorez les prénoms africains, leur origine,
+                leur signification et les histoires qui les rendent
+                uniques.
+              </p>
+
+              <div className="flex justidy-start items-center gap-2">
+
+                <button type="button" onClick={() => router.push("/names")} className="mt-6 flex items-center gap-3 bg-background px-5 py-3 font-ui text-xs font-semibold text-primary">
+                  Découvrir les prénoms
+                  <IconlyArrowRight size={16} color="currentColor" />
+                </button>
+
+                <button type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setShowContribution(true);
+                  }}
+                  className="mt-6 flex items-center gap-3 bg-background/50 px-5 py-3 font-ui text-xs font-semibold text-primary">
+                  Contribuer un prénom
+                  <IconlyPlus size={16} color="currentColor" />
+                </button>
+
+              </div>
+
+            </div>
+
+          </section>
+
+          {/* =========================STATS ========================== */}
+
+          <section className="mt-5 grid grid-cols-3 border border-primary/10"><Stats /></section>
+
+          {/* =========================CATEGORIES========================== */}
+
+          <section className="mt-7">
+
+            <div className="flex items-center justify-between">
+
+              <div>
+                <p className="font-ui text-[10px] font-semibold uppercase tracking-widest text-gray-400">
+                  Explorer
+                </p>
+
+                <h2 className="mt-1 font-righteous text-xl text-primary">
+                  Catégories
+                </h2>
+              </div>
+
+              <button
+                type="button"
+                className="font-ui text-xs font-medium text-gray-500"
+              >
+                Voir tout
+              </button>
+
+            </div>
+
+            <div className="mt-4 flex gap-2 overflow-x-auto pb-2 scrollbar-none">
+
+              {categories.map((category) => (
+                <button
+                  key={category.title}
+                  type="button"
+                  className="flex h-20 min-w-28 flex-col justify-between bg-primary p-3 text-left text-background"
+                >
+
+                  <span className="font-ui text-xs font-medium">
+                    {category.title}
+                  </span>
+
+                  <span className="font-ui text-[10px] text-background/50">
+                    {category.count} prénoms
+                  </span>
+
+                </button>
+              ))}
+
+            </div>
+
+          </section>
+
+          {/* =========================FEATURED NAMES========================== */}
+
+          <section className="mt-7">
+
+            <div className="flex items-end justify-between">
+
+              <div>
+                <p className="font-ui text-[10px] font-semibold uppercase tracking-widest text-gray-400">
+                  Sélection Izina
+                </p>
+
+                <h2 className="mt-1 font-righteous text-xl text-primary">
+                  Prénoms à la une
+                </h2>
+              </div>
+
+              <button
+                type="button"
+                className="flex items-center gap-1 font-ui text-xs font-medium text-gray-500"
+              >
+                Explorer
+                <IconlyChevronRight
+                  size={12}
+                  color="currentColor"
+                />
+              </button>
+
+            </div>
+
+            <div className="mt-4 grid grid-cols-2 gap-3">
+
+              {featuredNames.map((item, index) => (
+                <article
+                  key={item.name}
+                  className={`relative min-h-44 overflow-hidden border border-primary/10 p-4 ${index === 0
+                      ? "bg-primary text-background"
+                      : "bg-background text-primary"
+                    }`}
+                >
+
+                  <button
+                    type="button"
+                    className={`absolute right-3 top-3 flex h-8 w-8 items-center justify-center ${index === 0
+                        ? "bg-background text-primary"
+                        : "bg-primary text-background"
+                      }`}
+                  >
+                    <IconlyHeart
+                      size={15}
+                      color="currentColor"
+                    />
+                  </button>
+
+                  <div className="flex h-full flex-col justify-between">
+
+                    <div>
+
+                      <span
+                        className={`font-ui text-[9px] uppercase tracking-widest ${index === 0
+                            ? "text-background/50"
+                            : "text-gray-400"
+                          }`}
+                      >
+                        {item.gender}
+                      </span>
+
+                      <h3 className="mt-4 font-righteous text-3xl">
+                        {item.name}
+                      </h3>
+
+                      <p
+                        className={`mt-1 font-ui text-xs ${index === 0
+                            ? "text-background/60"
+                            : "text-gray-500"
+                          }`}
+                      >
+                        {item.origin}
+                      </p>
+
+                    </div>
+
+                    <div>
+
+                      <p
+                        className={`font-ui text-xs font-medium ${index === 0
+                            ? "text-background"
+                            : "text-primary"
+                          }`}
+                      >
+                        {item.meaning}
+                      </p>
+
+                      <p
+                        className={`mt-1 font-ui text-[9px] uppercase tracking-wide ${index === 0
+                            ? "text-background/40"
+                            : "text-gray-400"
+                          }`}
+                      >
+                        {item.popularity}
+                      </p>
+
+                    </div>
+
+                  </div>
+
+                </article>
+              ))}
+
+            </div>
+
+          </section>
+
+          {/* =========================COUNTRIES========================== */}
+
+          <section className="mt-7">
+
+            <div className="flex items-end justify-between">
+
+              <div>
+                <p className="font-ui text-[10px] font-semibold uppercase tracking-widest text-gray-400">
+                  Origines
+                </p>
+
+                <h2 className="mt-1 font-righteous text-xl text-primary">
+                  Explorer par pays
+                </h2>
+              </div>
+
+              <span className="font-ui text-xs text-gray-400">
+                Afrique
+              </span>
+
+            </div>
+
+            <div className="mt-4 flex flex-col border-t border-primary/10">
+
+              {countries.map((country) => (
+                <button
+                  key={country.name}
+                  type="button"
+                  className="flex items-center justify-between border-b border-primary/10 py-4"
+                >
+
+                  <div className="flex items-center gap-3">
+
+                    <span className="flex h-10 w-10 items-center justify-center bg-primary text-lg">
+                      {country.flag}
+                    </span>
+
+                    <div className="text-left">
+
+                      <p className="font-ui text-sm font-semibold text-primary">
+                        {country.name}
+                      </p>
+
+                      <p className="mt-1 font-ui text-[10px] text-gray-400">
+                        {country.count} prénoms disponibles
+                      </p>
+
+                    </div>
+
+                  </div>
+
+                  <IconlyChevronRight
+                    size={16}
+                    color="currentColor"
+                  />
+
+                </button>
+              ))}
+
+            </div>
+
+          </section>
+
+          {/* =========================RECENT NAMES========================== */}
+
+          <section className="mt-7">
+
+            <div className="flex items-end justify-between">
+
+              <div>
+                <p className="font-ui text-[10px] font-semibold uppercase tracking-widest text-gray-400">
+                  Nouveautés
+                </p>
+
+                <h2 className="mt-1 font-righteous text-xl text-primary">
+                  Ajoutés récemment
+                </h2>
+              </div>
+
+            </div>
+
+            <div className="mt-4 flex flex-col gap-2">
+
+              {recentNames.map((item, index) => (
+                <button
+                  key={item.name}
+                  type="button"
+                  className="flex items-center justify-between border border-primary/10 p-3 text-left"
+                >
+
+                  <div className="flex items-center gap-3">
+
+                    <span className="flex h-11 w-11 items-center justify-center bg-primary font-righteous text-lg text-background">
+                      {item.name.charAt(0)}
+                    </span>
+
+                    <div>
+
+                      <h3 className="font-righteous text-base text-primary">
+                        {item.name}
+                      </h3>
+
+                      <p className="mt-1 font-ui text-xs text-gray-500">
+                        {item.meaning}
+                      </p>
+
+                    </div>
+
+                  </div>
+
+                  <div className="flex items-center gap-3">
+
+                    <span className="hidden font-ui text-[10px] uppercase tracking-wide text-gray-400 sm:block">
+                      {item.origin}
+                    </span>
+
+                    <IconlyChevronRight
+                      size={15}
+                      color="currentColor"
+                    />
+
+                  </div>
+
+                </button>
+              ))}
+
+            </div>
+
+          </section>
+
+          {/* ========================= CTA========================== */}
+
+          <section className="relative mt-7 overflow-hidden bg-primary p-5">
+
+            <div className="relative z-10">
+
+              <p className="font-ui text-[10px] uppercase tracking-[0.2em] text-background/40">
+                Votre histoire commence ici
+              </p>
+
+              <h2 className="mt-2 max-w-xs font-righteous text-2xl leading-tight text-background">
+                Trouvez un prénom qui a du sens.
+              </h2>
+
+              <button
+                type="button"
+                onClick={() => router.push("/names")}
+                className="mt-5 flex items-center gap-2 bg-background px-4 py-3 font-ui text-xs font-semibold text-primary"
+              >
+                Explorer Izina
+
+                <IconlyArrowRight
+                  size={14}
+                  color="currentColor"
+                />
+              </button>
+
+            </div>
+
+            <div className="absolute -bottom-20 -right-10 h-44 w-44 rounded-full border border-background/10" />
+
+          </section>
+
+        </div>
+
+        {/* =========================NAVBAR========================== */}
+
+        <section className="w-full flex justify-center items-center absolute bottom-3 left-0 right-0 z-50 px-4">
+          <Navbar />
+        </section>
+
+        {/* Bottom Sheet */}
+        <section>
+          <AnimatePresence>
+            {showContribution && (
+              <>
+                {/* Overlay */}
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  className="w-full fixed inset-0 z-40 bg-primary/20"
+                  onClick={() => setShowContribution(false)}
+                />
+
+                {/* Contribution Card */}
+                <motion.div initial={{ y: "100%" }} animate={{ y: 0 }} exit={{ y: "100%" }}
+                  transition={{ type: "spring", stiffness: 400, damping: 35, duration: 0.5 }}
+                  onClick={(e) => e.stopPropagation()}
+                  className="absolute bottom-0 left-0 right-0 z-50 md:w-[80%] lg:w-180 bg-background p-4 h-[70%] overflow-y-auto scrollbar-none"
+                >
+
+                  {/* 
+                  <ContributionsCard
+                    contribution={{
+                      label: "Afia",
+                      description: {
+                        fr: "Née un vendredi",
+                        en: "Born on Friday",
+                      },
+                      category: ["traditionnel"],
+                      country: ["Togo", "Ghana"],
+                      ethnicGroup: ["Éwé"],
+                      gender: "féminin",
+                    }}
+                  /> 
+                  */}
+                    <NewContributionsCard
+                      onClose={() => setShowContribution(false)}
+                      onSubmit={(data) => {
+                        console.log(data);
+                      }}
+                    />
+                </motion.div>
+              </>
+            )}
+          </AnimatePresence>
+        </section>
+
+      </main>
+
+    </div>
+  );
+}
