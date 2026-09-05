@@ -1,4 +1,3 @@
-// src/lib/api/auth.ts
 import { apiFetch } from "./client";
 
 export interface RegisterPayload {
@@ -24,3 +23,17 @@ export const registerRequest = (payload: RegisterPayload) =>
     method: "POST",
     body: JSON.stringify(payload),
   });
+
+export const verifyEmailRequest = (code: string) =>
+  apiFetch<{ success: boolean; message: string }>(
+    "/auth/verify-email",
+    { method: "POST", body: JSON.stringify({ code }) },
+    true, // authentifié
+  );
+
+export const resendVerificationCodeRequest = () =>
+  apiFetch<{ success: boolean; message: string }>(
+    "/auth/resend-verification-code",
+    { method: "POST" },
+    true, // authentifié
+  );
