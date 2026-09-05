@@ -49,3 +49,15 @@ export const loginRequest = (payload: LoginPayload) =>
     method: "POST",
     body: JSON.stringify(payload),
   });
+
+export const forgotPasswordRequest = (email: string) =>
+  apiFetch<{ success: boolean; message: string }>("/auth/forgot-password", {
+    method: "POST",
+    body: JSON.stringify({ email }),
+  });
+
+export const resetPasswordRequest = (email: string, code: string, newPassword: string) =>
+  apiFetch<{ success: boolean; message: string }>("/auth/reset-password", {
+    method: "POST",
+    body: JSON.stringify({ email, code, newPassword }),
+  });
