@@ -112,13 +112,13 @@ export default function DiscoverPage() {
             <span className="ml-3">
               <IconlySearch
                 size={17}
-
+                color="currentColor"
               />
             </span>
 
               <input
                 placeholder="Rechercher un prénom..."
-                className="h-full w-full bg-transparent px-3 font-ui text-sm outline-none"
+                className="h-full w-full bg-transparent px-3 font-ui text-xs outline-none"
               />
 
             </div>
@@ -149,7 +149,7 @@ export default function DiscoverPage() {
               </div>
 
               <button className="flex h-10 w-10 items-center justify-center border border-background/20">
-                <IconlyStarFill size={17} />
+                <IconlyStarFill size={17} color="currentColor" />
               </button>
 
             </div>
@@ -164,7 +164,7 @@ export default function DiscoverPage() {
               className="mt-5 flex items-center gap-2 bg-background px-4 py-3 font-ui text-xs font-semibold text-primary"
             >
               Découvrir ce prénom
-              <IconlyArrowRight size={14} />
+              <IconlyArrowRight size={14} color="currentColor" />
             </button>
 
           </section>
@@ -250,7 +250,7 @@ export default function DiscoverPage() {
 
                   </div>
 
-                  <IconlyChevronRight size={15} />
+                  <IconlyChevronRight size={15} color="currentColor" />
 
                 </button>
 
@@ -297,7 +297,7 @@ export default function DiscoverPage() {
                       {name.name}
                     </span>
 
-                    <IconlyHeart size={15} />
+                    <IconlyHeart size={15} color="currentColor" />
 
                   </div>
 
