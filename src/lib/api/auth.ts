@@ -18,6 +18,12 @@ export interface AuthApiResponse {
   };
 }
 
+export interface LoginPayload {
+  email?: string;
+  phone?: string;
+  password: string;
+}
+
 export const registerRequest = (payload: RegisterPayload) =>
   apiFetch<AuthApiResponse>("/auth/register", {
     method: "POST",
@@ -37,3 +43,9 @@ export const resendVerificationCodeRequest = () =>
     { method: "POST" },
     true, // authentifié
   );
+
+export const loginRequest = (payload: LoginPayload) =>
+  apiFetch<AuthApiResponse>("/auth/login", {
+    method: "POST",
+    body: JSON.stringify(payload),
+  });
