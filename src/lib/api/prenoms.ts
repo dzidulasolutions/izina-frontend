@@ -58,6 +58,9 @@ export interface PrenomResult {
   label: string;
   description: { fr: string; en: string };
   gender: string;
+  country?: string[];
+  ethnicGroup?: string[];
+  likesCount?: number;
 }
 
 interface PrenomsListResponse {
@@ -71,5 +74,17 @@ export const fetchPrenoms = (filters: PrenomSearchFilters) => {
   Object.entries(filters).forEach(([key, value]) => {
     if (value) params.set(key, String(value));
   });
-  return apiFetch<PrenomsListResponse>(`/prenoms?${params.toString()}`, { method: "GET" });
+  return apiFetch<PrenomsListResponse>(`/prenoms?${params.toString()}`, {
+    method: "GET",
+  });
 };
+
+export const fetchPopulaires = (limit = 4) =>
+  apiFetch<PrenomsListResponse>(`/prenoms/populaires?limit=${limit}`, {
+    method: "GET",
+  });
+
+export const fetchRecents = (limit = 3) =>
+  apiFetch<PrenomsListResponse>(`/prenoms?sort=recent&limit=${limit}`, {
+    method: "GET",
+  });

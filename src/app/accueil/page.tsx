@@ -16,111 +16,47 @@ import NotificationsCard from "@/src/components/cards/NotificationsCard";
 import FilterCard from "@/src/components/cards/FilterCard";
 import { useCreateContribution } from "@/src/hooks/useCreateContribution";
 import Alert from "@/src/components/ui/alert";
+import { useHomeData } from "@/src/hooks/useHomeData";
 
 const categories = [
   {
     title: "Masculins",
-    count: 420,
+    count: 0,
   },
   {
     title: "Féminins",
-    count: 380,
+    count: 0,
   },
   {
-    title: "Mixtes",
-    count: 120,
+    title: "Neutres",
+    count: 0,
   },
   {
     title: "Rares",
-    count: 86,
+    count: 0,
   },
   {
     title: "Populaires",
-    count: 154,
+    count: 0,
   },
   {
     title: "Modernes",
-    count: 98,
-  },
-];
-
-const featuredNames = [
-  {
-    name: "Kossi",
-    meaning: "Né un dimanche",
-    origin: "Ewe · Togo",
-    gender: "Masculin",
-    popularity: "Très populaire",
-  },
-  {
-    name: "Ama",
-    meaning: "Née un samedi",
-    origin: "Akan · Ghana",
-    gender: "Féminin",
-    popularity: "Populaire",
-  },
-  {
-    name: "Kwame",
-    meaning: "Né un samedi",
-    origin: "Akan · Ghana",
-    gender: "Masculin",
-    popularity: "Très populaire",
-  },
-  {
-    name: "Esi",
-    meaning: "Née un dimanche",
-    origin: "Akan · Ghana",
-    gender: "Féminin",
-    popularity: "Rare",
+    count: 0,
   },
 ];
 
 const countries = [
-  {
-    name: "Togo",
-    count: 280,
-    flag: "🇹🇬",
-  },
-  {
-    name: "Ghana",
-    count: 340,
-    flag: "🇬🇭",
-  },
-  {
-    name: "Bénin",
-    count: 210,
-    flag: "🇧🇯",
-  },
-  {
-    name: "Nigeria",
-    count: 420,
-    flag: "🇳🇬",
-  },
-];
-
-const recentNames = [
-  {
-    name: "Sena",
-    meaning: "Destinée / grâce",
-    origin: "Ewe",
-  },
-  {
-    name: "Yao",
-    meaning: "Né un jeudi",
-    origin: "Akan",
-  },
-  {
-    name: "Adjoa",
-    meaning: "Née un lundi",
-    origin: "Akan",
-  },
+  { name: "Togo", count: 0, flag: "🇹🇬", },
+  { name: "Ghana", count: 0, flag: "🇬🇭", },
+  { name: "Bénin", count: 0, flag: "🇧🇯", },
+  { name: "Nigeria", count: 0, flag: "🇳🇬", },
 ];
 
 export default function OnboardingPage() {
   const router = useRouter();
   const [showContribution, setShowContribution] = useState(false);
   const { submit: submitContribution, loading: submittingContribution, alert: contributionAlert, setAlert: setContributionAlert } = useCreateContribution();
-
+  const { featured, recent, loading: homeLoading, popularityLabel } = useHomeData();
   return (
     <div className="flex h-screen w-full overflow-hidden bg-background" onClick={() => showContribution && setShowContribution(false)}>
 
@@ -223,7 +159,7 @@ export default function OnboardingPage() {
 
           {/* =========================STATS ========================== */}
 
-          <section className="mt-5 grid grid-cols-3 border border-primary/10"><Stats /></section>
+          <section className="mt-5 grid grid-cols-3 border border-primary/10"><Stats loading={homeLoading} /></section>
 
           {/* =========================CATEGORIES========================== */}
 
@@ -232,45 +168,47 @@ export default function OnboardingPage() {
             <div className="flex items-center justify-between">
 
               <div>
-                <p className="font-ui text-[10px] font-semibold uppercase tracking-widest text-gray-400">
-                  Explorer
-                </p>
-
-                <h2 className="mt-1 font-righteous text-xl text-primary">
-                  Catégories
-                </h2>
+                <p className="font-ui text-[10px] font-semibold uppercase tracking-widest text-gray-400">Explorer</p>
+                <h2 className="mt-1 font-righteous text-xl text-primary">Catégories</h2>
               </div>
 
-              <button
-                type="button"
-                className="font-ui text-xs font-medium text-gray-500"
-              >
-                Voir tout
-              </button>
+              <button type="button" className="font-ui text-xs font-medium text-gray-500">Voir tout</button>
 
             </div>
+            {homeLoading ? (
+              <div className="mt-4 flex gap-2 overflow-x-auto pb-2 scrollbar-none">
+                {[0, 1, 2, 3, 4, 5].map((i) => (
+                  <div key={i} className="h-20 min-w-28 shrink-0 animate-pulse bg-primary/5 p-3">
+                    <div className="h-2 w-14 bg-primary/10" />
+                    <div className="mt-8 h-2 w-16 bg-primary/10" />
+                  </div>
+                ))}
+              </div>
+            ) : (
 
-            <div className="mt-4 flex gap-2 overflow-x-auto pb-2 scrollbar-none">
+              <div className="mt-4 flex gap-2 overflow-x-auto pb-2 scrollbar-none">
 
-              {categories.map((category) => (
-                <button
-                  key={category.title}
-                  type="button"
-                  className="flex h-20 min-w-28 flex-col justify-between bg-primary p-3 text-left text-background"
-                >
+                {categories.map((category) => (
+                  <button
+                    key={category.title}
+                    type="button"
+                    className="flex h-20 min-w-28 flex-col justify-between bg-primary p-3 text-left text-background"
+                  >
 
-                  <span className="font-ui text-xs font-medium">
-                    {category.title}
-                  </span>
+                    <span className="font-ui text-xs font-medium">
+                      {category.title}
+                    </span>
 
-                  <span className="font-ui text-[10px] text-background/50">
-                    {category.count} prénoms
-                  </span>
+                    <span className="font-ui text-[10px] text-background/50">
+                      {category.count} prénoms
+                    </span>
 
-                </button>
-              ))}
+                  </button>
+                ))}
 
-            </div>
+              </div>
+            )
+            }
 
           </section>
 
@@ -303,86 +241,61 @@ export default function OnboardingPage() {
 
             </div>
 
-            <div className="mt-4 grid grid-cols-2 gap-3">
-
-              {featuredNames.map((item, index) => (
-                <article
-                  key={item.name}
-                  className={`relative min-h-44 overflow-hidden border border-primary/10 p-4 ${index === 0
-                    ? "bg-primary text-background"
-                    : "bg-background text-primary"
-                    }`}
-                >
-
-                  <button
-                    type="button"
-                    className={`absolute right-3 top-3 flex h-8 w-8 items-center justify-center ${index === 0
-                      ? "bg-background text-primary"
-                      : "bg-primary text-background"
-                      }`}
-                  >
-                    <IconlyHeart
-                      size={15}
-                      color="currentColor"
-                    />
-                  </button>
-
-                  <div className="flex h-full flex-col justify-between">
-
-                    <div>
-
-                      <span
-                        className={`font-ui text-[9px] uppercase tracking-widest ${index === 0
-                          ? "text-background/50"
-                          : "text-gray-400"
-                          }`}
-                      >
-                        {item.gender}
-                      </span>
-
-                      <h3 className="mt-4 font-righteous text-3xl">
-                        {item.name}
-                      </h3>
-
-                      <p
-                        className={`mt-1 font-ui text-xs ${index === 0
-                          ? "text-background/60"
-                          : "text-gray-500"
-                          }`}
-                      >
-                        {item.origin}
-                      </p>
-
+            {
+              homeLoading ? (
+                <div className="mt-4 grid grid-cols-2 gap-3">
+                  {[0, 1, 2, 3].map((i) => (
+                    <div key={i} className="min-h-44 animate-pulse border border-primary/10 bg-primary/5 p-4">
+                      <div className="h-2 w-16 bg-primary/10" />
+                      <div className="mt-4 h-8 w-24 bg-primary/10" />
+                      <div className="mt-2 h-2 w-20 bg-primary/10" />
+                      <div className="mt-8 h-2 w-full bg-primary/10" />
+                      <div className="mt-2 h-2 w-14 bg-primary/10" />
                     </div>
+                  ))}
+                </div>
+              ) : (
 
-                    <div>
-
-                      <p
-                        className={`font-ui text-xs font-medium ${index === 0
-                          ? "text-background"
-                          : "text-primary"
+                <div className="mt-4 grid grid-cols-2 gap-3">
+                  {featured.map((item, index) => (
+                    <article
+                      key={item._id}
+                      className={`relative min-h-44 overflow-hidden border border-primary/10 p-4 ${index === 0 ? "bg-primary text-background" : "bg-background text-primary"
+                        }`}
+                    >
+                      <button
+                        type="button"
+                        className={`absolute right-3 top-3 flex h-8 w-8 items-center justify-center ${index === 0 ? "bg-background text-primary" : "bg-primary text-background"
                           }`}
                       >
-                        {item.meaning}
-                      </p>
+                        <IconlyHeart size={15} color="currentColor" />
+                      </button>
 
-                      <p
-                        className={`mt-1 font-ui text-[9px] uppercase tracking-wide ${index === 0
-                          ? "text-background/40"
-                          : "text-gray-400"
-                          }`}
-                      >
-                        {item.popularity}
-                      </p>
+                      <div className="flex h-full flex-col justify-between">
+                        <div>
+                          <span className={`font-ui text-[9px] uppercase tracking-widest ${index === 0 ? "text-background/50" : "text-gray-400"}`}>
+                            {item.gender}
+                          </span>
+                          <h3 className="mt-4 font-righteous text-3xl">{item.label}</h3>
+                          <p className={`mt-1 font-ui text-xs ${index === 0 ? "text-background/60" : "text-gray-500"}`}>
+                            {item.ethnicGroup?.[0] ?? item.country?.[0] ?? ""}
+                          </p>
+                        </div>
 
-                    </div>
-
-                  </div>
-
-                </article>
-              ))}
-
-            </div>
+                        <div>
+                          <p className={`font-ui text-xs font-medium ${index === 0 ? "text-background" : "text-primary"}`}>
+                            {item.description.fr}
+                          </p>
+                          <p className={`mt-1 font-ui text-[9px] uppercase tracking-wide ${index === 0 ? "text-background/40" : "text-gray-400"}`}>
+                            {popularityLabel(item.likesCount)}
+                          </p>
+                        </div>
+                      </div>
+                    </article>
+                  ))}
+                </div>
+              )
+            }
 
           </section>
 
@@ -391,61 +304,67 @@ export default function OnboardingPage() {
           <section className="mt-7">
 
             <div className="flex items-end justify-between">
-
               <div>
-                <p className="font-ui text-[10px] font-semibold uppercase tracking-widest text-gray-400">
-                  Origines
-                </p>
-
-                <h2 className="mt-1 font-righteous text-xl text-primary">
-                  Explorer par pays
-                </h2>
+                <p className="font-ui text-[10px] font-semibold uppercase tracking-widest text-gray-400">Origines</p>
+                <h2 className="mt-1 font-righteous text-xl text-primary">Explorer par pays</h2>
               </div>
-
-              <span className="font-ui text-xs text-gray-400">
-                Afrique
-              </span>
-
+              <span className="font-ui text-xs text-gray-400">Afrique</span>
             </div>
 
-            <div className="mt-4 flex flex-col border-t border-primary/10">
-
-              {countries.map((country) => (
-                <button
-                  key={country.name}
-                  type="button"
-                  className="flex items-center justify-between border-b border-primary/10 py-4"
-                >
-
-                  <div className="flex items-center gap-3">
-
-                    <span className="flex h-10 w-10 items-center justify-center bg-primary text-lg">
-                      {country.flag}
-                    </span>
-
-                    <div className="text-left">
-
-                      <p className="font-ui text-sm font-semibold text-primary">
-                        {country.name}
-                      </p>
-
-                      <p className="mt-1 font-ui text-[10px] text-gray-400">
-                        {country.count} prénoms disponibles
-                      </p>
-
+            {
+              homeLoading ? (
+                <div className="mt-4 flex flex-col border-t border-primary/10">
+                  {[0, 1, 2, 3].map((i) => (
+                    <div key={i} className="flex animate-pulse items-center gap-3 border-b border-primary/10 py-4">
+                      <div className="h-10 w-10 shrink-0 bg-primary/10" />
+                      <div className="flex-1">
+                        <div className="h-3 w-16 bg-primary/10" />
+                        <div className="mt-2 h-2 w-24 bg-primary/10" />
+                      </div>
                     </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="mt-4 flex flex-col border-t border-primary/10">
 
-                  </div>
+                  {countries.map((country) => (
+                    <button
+                      key={country.name}
+                      type="button"
+                      className="flex items-center justify-between border-b border-primary/10 py-4"
+                    >
 
-                  <IconlyChevronRight
-                    size={16}
-                    color="currentColor"
-                  />
+                      <div className="flex items-center gap-3">
 
-                </button>
-              ))}
+                        <span className="flex h-10 w-10 items-center justify-center bg-primary text-lg">
+                          {country.flag}
+                        </span>
 
-            </div>
+                        <div className="text-left">
+
+                          <p className="font-ui text-sm font-semibold text-primary">
+                            {country.name}
+                          </p>
+
+                          <p className="mt-1 font-ui text-[10px] text-gray-400">
+                            {country.count} prénoms disponibles
+                          </p>
+
+                        </div>
+
+                      </div>
+
+                      <IconlyChevronRight
+                        size={16}
+                        color="currentColor"
+                      />
+
+                    </button>
+                  ))}
+
+                </div>
+              )
+            }
 
           </section>
 
@@ -456,63 +375,51 @@ export default function OnboardingPage() {
             <div className="flex items-end justify-between">
 
               <div>
-                <p className="font-ui text-[10px] font-semibold uppercase tracking-widest text-gray-400">
-                  Nouveautés
-                </p>
-
-                <h2 className="mt-1 font-righteous text-xl text-primary">
-                  Ajoutés récemment
-                </h2>
+                <p className="font-ui text-[10px] font-semibold uppercase tracking-widest text-gray-400">Nouveautés</p>
+                <h2 className="mt-1 font-righteous text-xl text-primary">Ajoutés récemment</h2>
               </div>
 
             </div>
 
-            <div className="mt-4 flex flex-col gap-2">
-
-              {recentNames.map((item, index) => (
-                <button
-                  key={item.name}
-                  type="button"
-                  className="flex items-center justify-between border border-primary/10 p-3 text-left"
-                >
-
-                  <div className="flex items-center gap-3">
-
-                    <span className="flex h-11 w-11 items-center justify-center bg-primary font-righteous text-lg text-background">
-                      {item.name.charAt(0)}
-                    </span>
-
-                    <div>
-
-                      <h3 className="font-righteous text-base text-primary">
-                        {item.name}
-                      </h3>
-
-                      <p className="mt-1 font-ui text-xs text-gray-500">
-                        {item.meaning}
-                      </p>
-
+            {
+              homeLoading ? (
+                <div className="mt-4 flex flex-col gap-2">
+                  {[0, 1, 2].map((i) => (
+                    <div key={i} className="flex animate-pulse items-center gap-3 border border-primary/10 p-3">
+                      <div className="h-11 w-11 shrink-0 bg-primary/10" />
+                      <div className="flex-1">
+                        <div className="h-3 w-20 bg-primary/10" />
+                        <div className="mt-2 h-2 w-32 bg-primary/10" />
+                      </div>
                     </div>
+                  ))}
+                </div>
+              ) : (
 
-                  </div>
+                <div className="mt-4 flex flex-col gap-2">
+                  {recent.map((item) => (
+                    <button key={item._id} type="button" className="flex items-center justify-between border border-primary/10 p-3 text-left">
+                      <div className="flex items-center gap-3">
+                        <span className="flex h-11 w-11 items-center justify-center bg-primary font-righteous text-lg text-background">
+                          {item.label.charAt(0)}
+                        </span>
+                        <div>
+                          <h3 className="font-righteous text-base text-primary">{item.label}</h3>
+                          <p className="mt-1 font-ui text-xs text-gray-500">{item.description.fr}</p>
+                        </div>
+                      </div>
 
-                  <div className="flex items-center gap-3">
-
-                    <span className="hidden font-ui text-[10px] uppercase tracking-wide text-gray-400 sm:block">
-                      {item.origin}
-                    </span>
-
-                    <IconlyChevronRight
-                      size={15}
-                      color="currentColor"
-                    />
-
-                  </div>
-
-                </button>
-              ))}
-
-            </div>
+                      <div className="flex items-center gap-3">
+                        <span className="hidden font-ui text-[10px] uppercase tracking-wide text-gray-400 sm:block">
+                          {item.ethnicGroup?.[0] ?? ""}
+                        </span>
+                        <IconlyChevronRight size={15} color="currentColor" />
+                      </div>
+                    </button>
+                  ))}
+                </div>
+              )
+            }
 
           </section>
 
