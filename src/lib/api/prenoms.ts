@@ -9,7 +9,7 @@ export interface CreatePrenomPayload {
   gender: "masculin" | "féminin" | "neutre";
 }
 
-// src/lib/api/prenoms.ts
+// Creation de prenoms
 export interface PrenomApiResponse {
   success: boolean;
   message: string;
@@ -40,3 +40,36 @@ export const createPrenomRequest = (payload: CreatePrenomPayload) =>
     { method: "POST", body: JSON.stringify(payload) },
     true, // authentifié
   );
+
+// Recherche de prenoms
+export interface PrenomSearchFilters {
+  search?: string;
+  gender?: string;
+  category?: string;
+  country?: string;
+  ethnicGroup?: string;
+  sort?: "az" | "za" | "recent";
+  cursor?: string;
+  limit?: number;
+}
+
+export interface PrenomResult {
+  _id: string;
+  label: string;
+  description: { fr: string; en: string };
+  gender: string;
+}
+
+interface PrenomsListResponse {
+  success: boolean;
+  message: string;
+  data: { data: PrenomResult[]; nextCursor: string | null };
+}
+
+export const fetchPrenoms = (filters: PrenomSearchFilters) => {
+  const params = new URLSearchParams();
+  Object.entries(filters).forEach(([key, value]) => {
+    if (value) params.set(key, String(value));
+  });
+  return apiFetch<PrenomsListResponse>(`/prenoms?${params.toString()}`, { method: "GET" });
+};
