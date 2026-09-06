@@ -61,3 +61,13 @@ export const resetPasswordRequest = (email: string, code: string, newPassword: s
     method: "POST",
     body: JSON.stringify({ email, code, newPassword }),
   });
+
+  // me 
+export interface MeResponse {
+  success: boolean;
+  message: string;
+  data: { id: string; displayName: string; role: string };
+}
+
+export const fetchMe = () =>
+  apiFetch<MeResponse>("/auth/me", { method: "GET" }, true);

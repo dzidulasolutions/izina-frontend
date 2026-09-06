@@ -17,6 +17,7 @@ import FilterCard from "@/src/components/cards/FilterCard";
 import { useCreateContribution } from "@/src/hooks/useCreateContribution";
 import Alert from "@/src/components/ui/alert";
 import { useHomeData } from "@/src/hooks/useHomeData";
+import { useCurrentUser } from "@/src/hooks/useCurrentUser";
 
 const categories = [
   {
@@ -57,6 +58,11 @@ export default function OnboardingPage() {
   const [showContribution, setShowContribution] = useState(false);
   const { submit: submitContribution, loading: submittingContribution, alert: contributionAlert, setAlert: setContributionAlert } = useCreateContribution();
   const { featured, recent, loading: homeLoading, popularityLabel } = useHomeData();
+  const { user, loading: userLoading } = useCurrentUser();
+  const initial = user?.displayName?.charAt(0).toUpperCase() ?? "?";
+  const firstName = user?.displayName?.split(" ")[0] ?? "Explorer";
+
+
   return (
     <div className="flex h-screen w-full overflow-hidden bg-background" onClick={() => showContribution && setShowContribution(false)}>
 
@@ -70,23 +76,25 @@ export default function OnboardingPage() {
 
           <header className="flex h-14 w-full items-center justify-between">
 
-            <button type="button"
-              className="flex items-center gap-3"
-            >
-              <span className="flex h-10 w-10 items-center justify-center bg-primary font-righteous text-xl text-background">
-                K
-              </span>
-
-              <div className="flex flex-col gap-1">
-                <h2 className="font-righteous text-md leading-none text-primary">
-                  Kossi
-                </h2>
-
-                <p className="font-ui text-[10px] font-medium uppercase tracking-wider text-gray-500">
-                  Explorer
-                </p>
+            {userLoading ? (
+              <div className="flex animate-pulse items-center gap-3">
+                <div className="h-10 w-10 bg-primary/10" />
+                <div className="flex flex-col gap-2">
+                  <div className="h-3 w-14 bg-primary/10" />
+                  <div className="h-2 w-16 bg-primary/10" />
+                </div>
               </div>
-            </button>
+            ) : (
+              <button type="button" className="flex items-center gap-3">
+                <span className="flex h-10 w-10 items-center justify-center bg-primary font-righteous text-xl text-background">
+                  {initial}
+                </span>
+                <div className="flex flex-col gap-1">
+                  <h2 className="font-righteous text-md leading-none text-primary">{firstName}</h2>
+                  <p className="font-ui text-[10px] font-medium uppercase tracking-wider text-gray-500">Explorer</p>
+                </div>
+              </button>
+            )}
 
             <NotificationsCard />
           </header>
