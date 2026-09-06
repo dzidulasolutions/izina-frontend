@@ -2,21 +2,20 @@
 
 import Stats from "@/src/components/stats/Stats";
 import {
-  IconlyFilter,
-  IconlyNotification,
-  IconlySearch,
   IconlyHeart,
   IconlyArrowRight,
   IconlyChevronRight,
-  IconlyPlus,
-  FiXCircle
+  IconlyPlus
 } from "@/src/components/ui/icons";
 import Navbar from "@/src/components/ui/navbar";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import ContributionsCard from "@/src/components/cards/ContributionsCard";
 import NewContributionsCard from "@/src/components/cards/NewContributionsCard";
+import NotificationsCard from "@/src/components/cards/NotificationsCard";
+import FilterCard from "@/src/components/cards/FilterCard";
+import { useCreateContribution } from "@/src/hooks/useCreateContribution";
+import Alert from "@/src/components/ui/alert";
 
 const categories = [
   {
@@ -120,6 +119,7 @@ const recentNames = [
 export default function OnboardingPage() {
   const router = useRouter();
   const [showContribution, setShowContribution] = useState(false);
+  const { submit: submitContribution, loading: submittingContribution, alert: contributionAlert, setAlert: setContributionAlert } = useCreateContribution();
 
   return (
     <div className="flex h-screen w-full overflow-hidden bg-background" onClick={() => showContribution && setShowContribution(false)}>
@@ -134,8 +134,7 @@ export default function OnboardingPage() {
 
           <header className="flex h-14 w-full items-center justify-between">
 
-            <button
-              type="button"
+            <button type="button"
               className="flex items-center gap-3"
             >
               <span className="flex h-10 w-10 items-center justify-center bg-primary font-righteous text-xl text-background">
@@ -153,51 +152,24 @@ export default function OnboardingPage() {
               </div>
             </button>
 
-            <button
-              type="button"
-              className="relative flex h-10 w-10 items-center justify-center bg-primary text-background"
-            >
-              <IconlyNotification
-                size={18}
-                color="currentColor"
-              />
-
-              <span className="absolute -right-1.5 -top-1.5 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 font-ui text-[9px] font-bold text-white">
-                1
-              </span>
-            </button>
-
+            <NotificationsCard />
           </header>
+
+          {/* Contribution Alert */}
+          <section className="absolute top-10 left-1/2 z-50 w-1/2 -translate-x-1/2 px-4 pb-4">
+            {contributionAlert && (
+              <Alert
+                type={contributionAlert.type}
+                message={contributionAlert.message}
+                onClose={() => setContributionAlert(null)}
+              />
+            )}
+          </section>
 
           {/* =========================SEARCH========================== */}
 
           <section className="mt-5 flex w-full items-center gap-2">
-
-            <div className="flex h-11 flex-1 px-2 items-center text-primary border border-primary/20 bg-background">
-
-              <IconlySearch
-                size={17}
-                color="currentColor"
-              />
-
-              <input
-                type="text"
-                placeholder="Rechercher un prénom..."
-                className="h-full w-full bg-transparent text-xs px-3 font-ui text-primary outline-none placeholder:text-gray-400"
-              />
-
-            </div>
-
-            <button
-              type="button"
-              className="flex h-11 w-11 shrink-0 items-center justify-center bg-primary text-background"
-            >
-              <IconlyFilter
-                size={18}
-                color="currentColor"
-              />
-            </button>
-
+            <FilterCard />
           </section>
 
           {/* =========================HERO========================== */}
@@ -337,16 +309,16 @@ export default function OnboardingPage() {
                 <article
                   key={item.name}
                   className={`relative min-h-44 overflow-hidden border border-primary/10 p-4 ${index === 0
-                      ? "bg-primary text-background"
-                      : "bg-background text-primary"
+                    ? "bg-primary text-background"
+                    : "bg-background text-primary"
                     }`}
                 >
 
                   <button
                     type="button"
                     className={`absolute right-3 top-3 flex h-8 w-8 items-center justify-center ${index === 0
-                        ? "bg-background text-primary"
-                        : "bg-primary text-background"
+                      ? "bg-background text-primary"
+                      : "bg-primary text-background"
                       }`}
                   >
                     <IconlyHeart
@@ -361,8 +333,8 @@ export default function OnboardingPage() {
 
                       <span
                         className={`font-ui text-[9px] uppercase tracking-widest ${index === 0
-                            ? "text-background/50"
-                            : "text-gray-400"
+                          ? "text-background/50"
+                          : "text-gray-400"
                           }`}
                       >
                         {item.gender}
@@ -374,8 +346,8 @@ export default function OnboardingPage() {
 
                       <p
                         className={`mt-1 font-ui text-xs ${index === 0
-                            ? "text-background/60"
-                            : "text-gray-500"
+                          ? "text-background/60"
+                          : "text-gray-500"
                           }`}
                       >
                         {item.origin}
@@ -387,8 +359,8 @@ export default function OnboardingPage() {
 
                       <p
                         className={`font-ui text-xs font-medium ${index === 0
-                            ? "text-background"
-                            : "text-primary"
+                          ? "text-background"
+                          : "text-primary"
                           }`}
                       >
                         {item.meaning}
@@ -396,8 +368,8 @@ export default function OnboardingPage() {
 
                       <p
                         className={`mt-1 font-ui text-[9px] uppercase tracking-wide ${index === 0
-                            ? "text-background/40"
-                            : "text-gray-400"
+                          ? "text-background/40"
+                          : "text-gray-400"
                           }`}
                       >
                         {item.popularity}
@@ -606,27 +578,13 @@ export default function OnboardingPage() {
                   className="absolute bottom-0 left-0 right-0 z-50 md:w-[80%] lg:w-180 bg-background p-4 h-[70%] overflow-y-auto scrollbar-none"
                 >
 
-                  {/* 
-                  <ContributionsCard
-                    contribution={{
-                      label: "Afia",
-                      description: {
-                        fr: "Née un vendredi",
-                        en: "Born on Friday",
-                      },
-                      category: ["traditionnel"],
-                      country: ["Togo", "Ghana"],
-                      ethnicGroup: ["Éwé"],
-                      gender: "féminin",
-                    }}
-                  /> 
-                  */}
-                    <NewContributionsCard
-                      onClose={() => setShowContribution(false)}
-                      onSubmit={(data) => {
-                        console.log(data);
-                      }}
-                    />
+                  <NewContributionsCard
+                    onClose={() => setShowContribution(false)}
+                    onSubmit={(data) =>
+                      submitContribution(data, () => setShowContribution(false))
+                    }
+                    loading={submittingContribution}
+                  />
                 </motion.div>
               </>
             )}

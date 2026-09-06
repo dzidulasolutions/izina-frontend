@@ -1,12 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import {
-  IconlyArrowLeft,
-  IconlyArrowRight,
-  FiXCircle,
-  IconlyPlus,
-} from "../ui/icons";
+import { IconlyArrowLeft, IconlyArrowRight, FiXCircle, IconlyPlus, IconlyLoader, } from "../ui/icons";
 
 export type NewContribution = {
   label: string;
@@ -17,15 +12,20 @@ export type NewContribution = {
   category: string[];
   country: string[];
   ethnicGroup: string[];
-  gender: string;
+  gender: "féminin" | "masculin" | "neutre";
 };
 
 type NewContributionsCardProps = {
   onClose: () => void;
   onSubmit?: (data: NewContribution) => void;
+  loading?: boolean;
 };
 
-const genders = ["féminin", "masculin", "mixte"];
+const genders: { label: string; value: "féminin" | "masculin" | "neutre" }[] = [
+  { label: "Féminin", value: "féminin" },
+  { label: "Masculin", value: "masculin" },
+  { label: "Mixte", value: "neutre" },
+];
 
 const categories = [
   "traditionnel",
@@ -38,6 +38,7 @@ const categories = [
 const NewContributionsCard = ({
   onClose,
   onSubmit,
+  loading = false,
 }: NewContributionsCardProps) => {
   const [step, setStep] = useState(1);
 
@@ -50,7 +51,7 @@ const NewContributionsCard = ({
     category: [],
     country: [],
     ethnicGroup: [],
-    gender: "",
+    gender: "féminin",
   });
 
   const updateForm = <K extends keyof NewContribution>(
@@ -152,11 +153,10 @@ const NewContributionsCard = ({
         {[1, 2, 3].map((item) => (
           <div
             key={item}
-            className={`h-1 flex-1 ${
-              item <= step
-                ? "bg-primary"
-                : "bg-primary/10"
-            }`}
+            className={`h-1 flex-1 ${item <= step
+              ? "bg-primary"
+              : "bg-primary/10"
+              }`}
           />
         ))}
       </div>
@@ -181,56 +181,39 @@ const NewContributionsCard = ({
 
               {/* Prénom */}
               <div className="space-y-2 scrollbar-none overflow-y-auto">
-                <label
-                  htmlFor="label"
-                  className="font-ui text-xs font-semibold uppercase tracking-wide"
-                >
-                  Prénom
-                </label>
-
-                <input
-                  id="label"
-                  type="text"
-                  value={form.label}
+                <label htmlFor="label" className="font-ui text-xs font-semibold uppercase tracking-wide"> Prénom</label>
+                <input id="label" type="text" value={form.label}
                   onChange={(e) =>
                     updateForm("label", e.target.value)
                   }
-                  placeholder="Ex : Afia"
-                  required
+                  placeholder="Ex : Afia" required
                   className="h-12 w-full border border-primary bg-background px-3 font-ui text-sm text-primary outline-none placeholder:text-primary/30 focus:border-2"
                 />
               </div>
 
               {/* Genre */}
               <div className="space-y-3">
-                <label className="font-ui text-xs font-semibold uppercase tracking-wide">
-                  Genre
-                </label>
-
+                <label className="font-ui text-xs font-semibold uppercase tracking-wide">Genre</label>
                 <div className="grid grid-cols-3 gap-2">
-                  {genders.map((gender) => {
-                    const selected =
-                      form.gender === gender;
-
+                  {genders.map((g) => {
+                    const selected = form.gender === g.value;
                     return (
                       <button
-                        key={gender}
+                        key={g.value}
                         type="button"
-                        onClick={() =>
-                          updateForm("gender", gender)
-                        }
-                        className={`border px-3 py-3 font-ui text-xs transition-colors ${
-                          selected
-                            ? "border-primary bg-primary text-background"
-                            : "border-primary bg-background text-primary"
-                        }`}
+                        onClick={() => updateForm("gender", g.value)}
+                        className={`border px-3 py-3 font-ui text-xs transition-colors ${selected
+                          ? "border-primary bg-primary text-background"
+                          : "border-primary bg-background text-primary"
+                          }`}
                       >
-                        {gender}
+                        {g.label}
                       </button>
                     );
                   })}
                 </div>
               </div>
+
             </div>
           )}
 
@@ -380,11 +363,10 @@ const NewContributionsCard = ({
                         onClick={() =>
                           toggleCategory(category)
                         }
-                        className={`border px-3 py-2 font-ui text-xs transition-colors ${
-                          selected
-                            ? "border-primary bg-primary text-background"
-                            : "border-primary bg-background text-primary"
-                        }`}
+                        className={`border px-3 py-2 font-ui text-xs transition-colors ${selected
+                          ? "border-primary bg-primary text-background"
+                          : "border-primary bg-background text-primary"
+                          }`}
                       >
                         {category}
                       </button>
@@ -403,11 +385,10 @@ const NewContributionsCard = ({
             type="button"
             onClick={previousStep}
             disabled={step === 1}
-            className={`flex h-11 items-center gap-2 border border-primary px-4 font-ui text-xs font-semibold ${
-              step === 1
-                ? "cursor-not-allowed opacity-30"
-                : "text-primary"
-            }`}
+            className={`flex h-11 items-center gap-2 border border-primary px-4 font-ui text-xs font-semibold ${step === 1
+              ? "cursor-not-allowed opacity-30"
+              : "text-primary"
+              }`}
           >
             <IconlyArrowLeft
               size={16}
@@ -419,29 +400,12 @@ const NewContributionsCard = ({
 
           {/* Suivant / Envoyer */}
           {step < 3 ? (
-            <button
-              type="button"
-              onClick={nextStep}
-              className="flex h-11 items-center gap-2 bg-primary px-5 font-ui text-xs font-semibold text-background"
-            >
-              Continuer
-
-              <IconlyArrowRight
-                size={16}
-                color="currentColor"
-              />
+            <button type="button" onClick={nextStep} className="flex h-11 items-center gap-2 bg-primary px-5 font-ui text-xs font-semibold text-background">
+              Continuer <IconlyArrowRight size={16} color="currentColor"/>
             </button>
           ) : (
-            <button
-              type="submit"
-              className="flex h-11 items-center gap-2 bg-primary px-5 font-ui text-xs font-semibold text-background"
-            >
-              Proposer
-
-              <IconlyPlus
-                size={16}
-                color="currentColor"
-              />
+            <button type="submit" disabled={loading} className="flex h-11 justify-center items-center gap-2 bg-primary px-5 font-ui text-xs font-semibold text-background disabled:opacity-50">
+              {loading ? ( <IconlyLoader size={16} color="currentColor" /> ) : (<> Proposer <IconlyPlus size={16} color="currentColor" /></>)}
             </button>
           )}
         </div>

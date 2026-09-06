@@ -13,33 +13,33 @@ export const LINKS: NavigationLinks[] = [
     navigation: [
       {
         name: "accueil",
-        href: "/izina/accueil",
+        href: "/accueil",
         icon: IconlyHome,
       },
       {
         name: "decouvrir",
-        href: "/izina/decouvrir",
+        href: "/decouvrir",
         icon: IconlySearch,
       },
       {
         name: "contributions",
-        href: "/izina/contributions",
+        href: "/contributions",
         icon: IconlyLogo,
       },
 
       {
         name: "surprise",
-        href: "/izina/surprise",
+        href: "/surprise",
         icon: IconlyStar,
       },
       {
         name: "calendrier",
-        href: "/izina/calendrier",
+        href: "/calendrier",
         icon: IconlyCalendar,
       },
       {
         name: "paramètres",
-        href: "/izina/parametres",
+        href: "/parametres",
         icon: IconlySetting,
       },
     ],
