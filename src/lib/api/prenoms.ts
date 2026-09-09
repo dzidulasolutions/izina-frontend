@@ -88,3 +88,71 @@ export const fetchRecents = (limit = 3) =>
   apiFetch<PrenomsListResponse>(`/prenoms?sort=recent&limit=${limit}`, {
     method: "GET",
   });
+
+export interface PrenomDetail {
+  _id: string;
+  label: string;
+  description: { fr: string; en: string };
+  category: string[];
+  country: string[];
+  ethnicGroup: string[];
+  gender: string;
+  likesCount: number;
+  savesCount: number;
+  downloadsCount: number;
+  sharesCount: number;
+  commentsCount: number;
+  viewsCount: number;
+}
+
+interface PrenomDetailResponse {
+  success: boolean;
+  message: string;
+  data: PrenomDetail;
+}
+
+export const fetchPrenomById = (id: string) =>
+  apiFetch<PrenomDetailResponse>(`/prenoms/${id}`, { method: "GET" });
+
+export const toggleLike = (id: string) =>
+  apiFetch<{ success: boolean; message: string; data: { liked: boolean } }>(
+    `/prenoms/${id}/like`, { method: "POST" }, true,
+  );
+
+export const toggleSave = (id: string) =>
+  apiFetch<{ success: boolean; message: string; data: { saved: boolean } }>(
+    `/prenoms/${id}/save`, { method: "POST" }, true,
+  );
+
+export const recordDownload = (id: string) =>
+  apiFetch<{ success: boolean; message: string }>(
+    `/prenoms/${id}/download`, { method: "POST" }, true,
+  );
+
+export const recordShare = (id: string, channel?: string) =>
+  apiFetch<{ success: boolean; message: string }>(
+    `/prenoms/${id}/share`, { method: "POST", body: JSON.stringify({ channel }) }, true,
+  );
+
+export interface ApiComment {
+  _id: string;
+  message: string;
+  createdAt: string;
+  userId: { _id: string; displayName: string };
+}
+
+interface CommentsResponse {
+  success: boolean;
+  message: string;
+  data: { data: ApiComment[]; nextCursor: string | null };
+}
+
+export const fetchComments = (prenomId: string) =>
+  apiFetch<CommentsResponse>(`/prenoms/${prenomId}/comments`, { method: "GET" });
+
+export const postComment = (prenomId: string, message: string) =>
+  apiFetch<{ success: boolean; message: string; data: ApiComment }>(
+    "/prenoms/comments",
+    { method: "POST", body: JSON.stringify({ prenomId, message }) },
+    true,
+  );
