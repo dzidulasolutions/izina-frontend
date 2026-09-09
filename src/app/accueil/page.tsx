@@ -100,7 +100,7 @@ export default function OnboardingPage() {
           </header>
 
           {/* Contribution Alert */}
-          <section className="absolute top-10 left-1/2 z-50 w-1/2 -translate-x-1/2 px-4 pb-4">
+          <section className="fixed top-10 left-1/2 z-50 w-1/2 -translate-x-1/2 px-4 pb-4">
             {contributionAlert && (
               <Alert
                 type={contributionAlert.type}

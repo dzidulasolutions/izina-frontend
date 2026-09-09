@@ -10,6 +10,7 @@ export interface CreatePrenomPayload {
 }
 
 // Creation de prenoms
+export type PrenomStatus = "brouillon" | "verifie_ia" | "publie" | "rejete";
 export interface PrenomApiResponse {
   success: boolean;
   message: string;
@@ -21,7 +22,7 @@ export interface PrenomApiResponse {
     country: string[];
     ethnicGroup: string[];
     gender: string;
-    status: string;
+    status: PrenomStatus; // au lieu de string
     authorId: string;
     likesCount: number;
     savesCount: number;
@@ -116,22 +117,30 @@ export const fetchPrenomById = (id: string) =>
 
 export const toggleLike = (id: string) =>
   apiFetch<{ success: boolean; message: string; data: { liked: boolean } }>(
-    `/prenoms/${id}/like`, { method: "POST" }, true,
+    `/prenoms/${id}/like`,
+    { method: "POST" },
+    true,
   );
 
 export const toggleSave = (id: string) =>
   apiFetch<{ success: boolean; message: string; data: { saved: boolean } }>(
-    `/prenoms/${id}/save`, { method: "POST" }, true,
+    `/prenoms/${id}/save`,
+    { method: "POST" },
+    true,
   );
 
 export const recordDownload = (id: string) =>
   apiFetch<{ success: boolean; message: string }>(
-    `/prenoms/${id}/download`, { method: "POST" }, true,
+    `/prenoms/${id}/download`,
+    { method: "POST" },
+    true,
   );
 
 export const recordShare = (id: string, channel?: string) =>
   apiFetch<{ success: boolean; message: string }>(
-    `/prenoms/${id}/share`, { method: "POST", body: JSON.stringify({ channel }) }, true,
+    `/prenoms/${id}/share`,
+    { method: "POST", body: JSON.stringify({ channel }) },
+    true,
   );
 
 export interface ApiComment {
@@ -148,7 +157,9 @@ interface CommentsResponse {
 }
 
 export const fetchComments = (prenomId: string) =>
-  apiFetch<CommentsResponse>(`/prenoms/${prenomId}/comments`, { method: "GET" });
+  apiFetch<CommentsResponse>(`/prenoms/${prenomId}/comments`, {
+    method: "GET",
+  });
 
 export const postComment = (prenomId: string, message: string) =>
   apiFetch<{ success: boolean; message: string; data: ApiComment }>(
@@ -156,3 +167,64 @@ export const postComment = (prenomId: string, message: string) =>
     { method: "POST", body: JSON.stringify({ prenomId, message }) },
     true,
   );
+
+export interface MyContribution {
+  _id: string;
+  label: string;
+  description: { fr: string; en: string };
+  status: PrenomStatus;
+}
+
+interface MyContributionsResponse {
+  success: boolean;
+  message: string;
+  data: MyContribution[];
+}
+
+export const fetchMyContributions = () =>
+  apiFetch<MyContributionsResponse>(
+    "/prenoms/mes-contributions",
+    { method: "GET" },
+    true,
+  );
+
+export interface TopContributor {
+  _id: string;
+  totalPublished: number;
+  contributeur: { displayName: string; profilePhotoUrl?: string };
+}
+
+interface TopContributorsResponse {
+  success: boolean;
+  message: string;
+  data: TopContributor[];
+}
+
+export const fetchTopContributors = () =>
+  apiFetch<TopContributorsResponse>("/prenoms/top-contributeurs", {
+    method: "GET",
+  });
+
+export interface UpdatePrenomPayload {
+  label?: string;
+  description?: { fr: string; en: string };
+  category?: string[];
+  country?: string[];
+  ethnicGroup?: string[];
+  gender?: "masculin" | "féminin" | "neutre";
+}
+
+export const updatePrenomRequest = (id: string, payload: UpdatePrenomPayload) =>
+  apiFetch<PrenomApiResponse>(
+    `/prenoms/${id}`,
+    { method: "PATCH", body: JSON.stringify(payload) },
+    true,
+  );
+
+export const deletePrenomRequest = (id: string) =>
+  apiFetch<{ success: boolean; message: string }>(
+    `/prenoms/${id}`,
+    { method: "DELETE" },
+    true,
+  );
+

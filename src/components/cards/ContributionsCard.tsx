@@ -1,11 +1,5 @@
 import { Contribution } from "@/src/lib/types/contribution";
-import {
-      IconlyArrowRight,
-      IconlyLocation,
-      IconlyUser,
-} from "../ui/icons";
-
-
+import { IconlyArrowRight, IconlyLocation, IconlyUser,} from "../ui/icons";
 
 type ContributionsCardProps = {
       contribution: Contribution;

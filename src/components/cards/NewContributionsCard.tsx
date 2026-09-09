@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { IconlyArrowLeft, IconlyArrowRight, FiXCircle, IconlyPlus, IconlyLoader, } from "../ui/icons";
 
 export type NewContribution = {
@@ -19,6 +19,8 @@ type NewContributionsCardProps = {
   onClose: () => void;
   onSubmit?: (data: NewContribution) => void;
   loading?: boolean;
+  initialData?: NewContribution; // NOUVEAU
+  mode?: "create" | "edit"; // NOUVEAU
 };
 
 const genders: { label: string; value: "féminin" | "masculin" | "neutre" }[] = [
@@ -39,20 +41,25 @@ const NewContributionsCard = ({
   onClose,
   onSubmit,
   loading = false,
+  initialData,
+  mode = "create",
 }: NewContributionsCardProps) => {
+  console.log("NewContributionsCard monté/rendu, step actuel via render");
+  useEffect(() => {
+    return () => console.log("NewContributionsCard DÉMONTÉ");
+  }, []);
   const [step, setStep] = useState(1);
 
-  const [form, setForm] = useState<NewContribution>({
-    label: "",
-    description: {
-      fr: "",
-      en: "",
+  const [form, setForm] = useState<NewContribution>(
+    initialData ?? {
+      label: "",
+      description: { fr: "", en: "" },
+      category: [],
+      country: [],
+      ethnicGroup: [],
+      gender: "féminin",
     },
-    category: [],
-    country: [],
-    ethnicGroup: [],
-    gender: "féminin",
-  });
+  );
 
   const updateForm = <K extends keyof NewContribution>(
     field: K,
@@ -165,6 +172,11 @@ const NewContributionsCard = ({
       <form
         onSubmit={handleSubmit}
         className="flex min-h-0 flex-1 flex-col"
+        onKeyDown={(e) => {
+          if (e.key === "Enter" && step < 3) {
+            e.preventDefault();
+          }
+        }}
       >
         {/* CONTENT */}
         <div className="min-h-0 flex-1 overflow-y-auto scrollbar-none py-5">
@@ -400,12 +412,24 @@ const NewContributionsCard = ({
 
           {/* Suivant / Envoyer */}
           {step < 3 ? (
-            <button type="button" onClick={nextStep} className="flex h-11 items-center gap-2 bg-primary px-5 font-ui text-xs font-semibold text-background">
-              Continuer <IconlyArrowRight size={16} color="currentColor"/>
+            <button key="continue-button" type="button" onClick={nextStep} className="flex h-11 items-center gap-2 bg-primary px-5 font-ui text-xs font-semibold text-background">
+              Continuer <IconlyArrowRight size={16} color="currentColor" />
             </button>
           ) : (
-            <button type="submit" disabled={loading} className="flex h-11 justify-center items-center gap-2 bg-primary px-5 font-ui text-xs font-semibold text-background disabled:opacity-50">
-              {loading ? ( <IconlyLoader size={16} color="currentColor" /> ) : (<> Proposer <IconlyPlus size={16} color="currentColor" /></>)}
+            <button
+              type="submit"
+              key="submit-button"
+              disabled={loading}
+              className="flex h-11 items-center gap-2 bg-primary px-5 font-ui text-xs font-semibold text-background disabled:opacity-50"
+            >
+              {loading ? (
+                <IconlyLoader size={20} color="currentColor" />
+              ) : (
+                <>
+                  {mode === "edit" ? "Enregistrer" : "Proposer"}
+                  <IconlyPlus size={16} color="currentColor" />
+                </>
+              )}
             </button>
           )}
         </div>
