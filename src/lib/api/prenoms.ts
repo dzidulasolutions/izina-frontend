@@ -1,5 +1,6 @@
 import { apiFetch } from "./client";
 
+
 export interface CreatePrenomPayload {
   label: string;
   description: { fr: string; en: string };
@@ -228,3 +229,15 @@ export const deletePrenomRequest = (id: string) =>
     true,
   );
 
+export const fetchSurprise = (filters?: { gender?: string; category?: string; country?: string; ethnicGroup?: string }) => {
+  const params = new URLSearchParams();
+  if (filters) {
+    Object.entries(filters).forEach(([key, value]) => {
+      if (value) params.set(key, value);
+    });
+  }
+  return apiFetch<PrenomDetailResponse>(`/prenoms/surprise?${params.toString()}`, { method: "GET" });
+};
+
+export const fetchTendances = (limit = 4) =>
+  apiFetch<PrenomsListResponse>(`/prenoms/tendances?limit=${limit}`, { method: "GET" });

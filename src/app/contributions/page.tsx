@@ -41,13 +41,7 @@ export default function ContributionsPage() {
             <h1 className="font-righteous text-xl">
               Contributions
             </h1>
-
-            <button
-              onClick={() => router.push("/contributions/create")}
-              className="flex h-10 w-10 items-center justify-center bg-primary text-background"
-            >
-              <IconlyMore size={17} color="currentColor" />
-            </button>
+            <button></button>
 
           </header>
 
