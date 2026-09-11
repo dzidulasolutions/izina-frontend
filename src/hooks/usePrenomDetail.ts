@@ -31,7 +31,10 @@ export function popularityLabel(likesCount = 0): string {
   return "Faible";
 }
 
-export function usePrenomDetail(id: string, currentUser?: { id: string; displayName: string } | null) {
+export function usePrenomDetail(
+  id: string,
+  currentUser?: { id: string; displayName: string } | null,
+) {
   const [prenom, setPrenom] = useState<PrenomDetail | null>(null);
   const [comments, setComments] = useState<ApiComment[]>([]);
   const [loading, setLoading] = useState(true);
@@ -125,7 +128,7 @@ export function usePrenomDetail(id: string, currentUser?: { id: string; displayN
     }
   };
 
-const addComment = async (message: string) => {
+  const addComment = async (message: string) => {
     if (!guardAuth()) return;
     try {
       const res = await postComment(id, message);
@@ -133,18 +136,23 @@ const addComment = async (message: string) => {
         _id: res.data._id,
         message: res.data.message,
         createdAt: res.data.createdAt,
-        userId: { _id: currentUser?.id ?? "", displayName: currentUser?.displayName ?? "Vous" },
+        userId: {
+          _id: currentUser?.id ?? "",
+          displayName: currentUser?.displayName ?? "Vous",
+        },
       };
       setComments((prev) => [newComment, ...prev]);
       setPrenom((p) => (p ? { ...p, commentsCount: p.commentsCount + 1 } : p));
     } catch (err) {
-      throw err instanceof ApiError ? err : new Error("Impossible d'ajouter le commentaire");
+      throw err instanceof ApiError
+        ? err
+        : new Error("Impossible d'ajouter le commentaire");
     }
   };
 
   const displayComments = comments.map((c) => ({
     id: c._id,
-    user: c.userId.displayName,
+    user: c.userId?.displayName ?? "Utilisateur supprimé",
     comment: c.message,
     date: timeAgo(c.createdAt),
   }));
@@ -163,6 +171,4 @@ const addComment = async (message: string) => {
     handleShare,
     addComment,
   };
-
 }
-
