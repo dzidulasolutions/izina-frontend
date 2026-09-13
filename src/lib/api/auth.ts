@@ -71,3 +71,7 @@ export interface MeResponse {
 
 export const fetchMe = () =>
   apiFetch<MeResponse>("/auth/me", { method: "GET" }, true);
+
+
+export const logoutRequest = () =>
+  apiFetch<{ success: boolean; message: string }>("/auth/logout", { method: "POST" }, true);
