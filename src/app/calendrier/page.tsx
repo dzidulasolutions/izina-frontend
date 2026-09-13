@@ -41,7 +41,7 @@ export default function CalendrierPage() {
         <div className="h-full overflow-y-auto overflow-x-hidden scrollbar-none px-4 pb-10 pt-4">
 
           <header className="flex items-center justify-between">
-            <button onClick={() => router.back()} className="flex h-10 w-10 items-center justify-center border border-primary/10">
+            <button onClick={() => router.push("/accueil")} className="flex h-10 w-10 items-center justify-center border border-primary/10">
               <IconlyArrowLeft size={17} color="currentColor" />
             </button>
             <div className="text-center">

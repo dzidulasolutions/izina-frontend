@@ -13,6 +13,7 @@ export function useCalendar() {
       setLoading(true);
       try {
         const res = await fetchFullCalendar();
+        console.log("Entrées calendrier reçues:", res.data);
         setEntries(res.data ?? []);
       } catch {
         setEntries([]);
