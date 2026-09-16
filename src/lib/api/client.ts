@@ -22,6 +22,7 @@ let refreshPromise: Promise<string | null> | null = null;
 
 async function refreshAccessToken(): Promise<string | null> {
   const refreshToken = getRefreshToken();
+  console.log("[refreshAccessToken] token utilisé:", refreshToken);
   if (!refreshToken) return null;
 
   try {
@@ -31,12 +32,16 @@ async function refreshAccessToken(): Promise<string | null> {
       body: JSON.stringify({ refreshToken }),
     });
 
+    console.log("[refreshAccessToken] status:", res.status);
+    const data = await res.json();
+    console.log("[refreshAccessToken] réponse:", data);
+
     if (!res.ok) return null;
 
-    const data = await res.json();
     saveTokens(data.data.accessToken, data.data.refreshToken);
     return data.data.accessToken;
-  } catch {
+  } catch (err) {
+    console.log("[refreshAccessToken] erreur:", err);
     return null;
   }
 }
@@ -65,9 +70,12 @@ export async function apiFetch<T>(
   authenticated = false,
 ): Promise<T> {
   let res = await performRequest(endpoint, options, authenticated);
+  console.log(`[apiFetch] ${endpoint} - status: ${res.status}, authenticated: ${authenticated}`);
 
   // Le token a expiré → on tente un refresh, une seule fois
   if (res.status === 401 && authenticated) {
+        console.log(`[apiFetch] Tentative de refresh pour ${endpoint}`);
+
     if (!refreshPromise) {
       refreshPromise = refreshAccessToken().finally(() => {
         refreshPromise = null;
