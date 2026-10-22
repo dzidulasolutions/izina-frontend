@@ -18,6 +18,7 @@ import { useCreateContribution } from "@/src/hooks/useCreateContribution";
 import Alert from "@/src/components/ui/alert";
 import { useHomeData } from "@/src/hooks/useHomeData";
 import { useCurrentUser } from "@/src/hooks/useCurrentUser";
+import InstallButton from "@/src/components/pwa/install-button";
 
 const categories = [
   {
@@ -95,8 +96,10 @@ export default function OnboardingPage() {
                 </div>
               </button>
             )}
-
-            <NotificationsCard />
+              <div className="ml-auto me-4">
+                <InstallButton />
+              </div>
+              <NotificationsCard />
           </header>
 
           {/* Contribution Alert */}
@@ -471,6 +474,7 @@ export default function OnboardingPage() {
         <section className="w-full flex justify-center items-center absolute bottom-3 left-0 right-0 z-50 px-4">
           <Navbar />
         </section>
+
 
         {/* Bottom Sheet */}
         <section>

@@ -8,7 +8,7 @@ export default function OnboardingPage() {
 
   const handleStart = () => {
     localStorage.setItem("hasSeenOnboarding", "true");
-    router.replace("/register");
+    router.replace("/accueil");
   };
 
   return (
