@@ -9,6 +9,6 @@ services:
     envVars:
       - key: NODE_VERSION
         value: 20.18.0
-      - key: https://izina-backend.onrender.com/api/docs
-        sync: false
+      - key: NEXT_PUBLIC_API_URL
+        value: https://izina-backend.onrender.com/api/docs
     autoDeploy: true
