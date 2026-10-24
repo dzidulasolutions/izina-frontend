@@ -10,5 +10,5 @@ services:
       - key: NODE_VERSION
         value: 20.18.0
       - key: NEXT_PUBLIC_API_URL
-        value: https://izina-backend.onrender.com/api/docs
+        sync: false
     autoDeploy: true
