@@ -9,7 +9,7 @@ import {
 } from "@/src/components/ui/icons";
 import Navbar from "@/src/components/ui/navbar";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import NewContributionsCard from "@/src/components/cards/NewContributionsCard";
 import NotificationsCard from "@/src/components/cards/NotificationsCard";
@@ -96,10 +96,10 @@ export default function OnboardingPage() {
                 </div>
               </button>
             )}
-              <div className="ml-auto me-4">
-                <InstallButton />
-              </div>
-              <NotificationsCard />
+            <div className="ml-auto me-4">
+              <InstallButton />
+            </div>
+            <NotificationsCard />
           </header>
 
           {/* Contribution Alert */}
@@ -116,7 +116,9 @@ export default function OnboardingPage() {
           {/* =========================SEARCH========================== */}
 
           <section className="mt-5 flex w-full items-center gap-2">
-            <FilterCard />
+            <Suspense fallback={<div className="h-12 w-full animate-pulse bg-primary/5" />}>
+              <FilterCard />
+            </Suspense>
           </section>
 
           {/* =========================HERO========================== */}
@@ -472,7 +474,9 @@ export default function OnboardingPage() {
         {/* =========================NAVBAR========================== */}
 
         <section className="w-full flex justify-center items-center absolute bottom-3 left-0 right-0 z-50 px-4">
-          <Navbar />
+          <Suspense fallback={null}>
+            <Navbar />
+          </Suspense>
         </section>
 
 

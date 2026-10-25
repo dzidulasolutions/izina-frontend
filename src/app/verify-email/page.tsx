@@ -1,12 +1,13 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { Suspense, useEffect, useRef, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { IconlyLoader, IconlyLogo } from "@/src/components/ui/icons";
 import Alert from "@/src/components/ui/alert";
 import { useVerifyEmail } from "@/src/hooks/useVerifyEmail";
 
-export default function VerifyEmailPage() {
+function VerifyEmailContent() {
+  const searchParams = useSearchParams();
   const router = useRouter();
   const { verify, resend, loading, resending, alert, setAlert, hasToken } = useVerifyEmail();
   const initialEmail = useSearchParams().get("email") ?? "";
@@ -119,5 +120,13 @@ export default function VerifyEmailPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function VerifyEmailPage() {
+  return (
+    <Suspense fallback={<div className="h-screen w-full bg-background" />}>
+      <VerifyEmailContent />
+    </Suspense>
   );
 }

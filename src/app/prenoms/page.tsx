@@ -5,8 +5,9 @@ import Navbar from "@/src/components/ui/navbar";
 import { IconlyArrowLeft, IconlyChevronRight, IconlyLoader } from "@/src/components/ui/icons";
 import { usePrenomsList } from "@/src/hooks/usePrenomsList";
 import { useInfiniteScroll } from "@/src/hooks/useInfiniteScroll";
+import { Suspense } from "react";
 
-export default function PrenomsListPage() {
+function PrenomsListContent() {
   const router = useRouter();
   const { items, loading, loadingMore, hasMore, loadMore } = usePrenomsList();
   const sentinelRef = useInfiniteScroll(loadMore, hasMore);
@@ -72,9 +73,19 @@ export default function PrenomsListPage() {
         </div>
 
         <div className="absolute bottom-3 left-0 right-0 z-50 px-4">
-          <Navbar />
+          <Suspense fallback={null}>
+            <Navbar />
+          </Suspense>
         </div>
       </main>
     </div>
+  );
+}
+
+export default function PrenomsListPage() {
+  return (
+    <Suspense fallback={<div className="h-screen w-full bg-background" />}>
+      <PrenomsListContent />
+    </Suspense>
   );
 }

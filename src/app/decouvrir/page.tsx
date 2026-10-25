@@ -7,6 +7,7 @@ import {
 import Navbar from "@/src/components/ui/navbar";
 import { useRouter } from "next/navigation";
 import { useDiscoverData } from "@/src/hooks/useDiscoverData";
+import { Suspense } from "react";
 
 const categories = ["Masculins", "Féminins", "Mixtes", "Rares", "Populaires", "Modernes"];
 
@@ -43,7 +44,9 @@ export default function DiscoverPage() {
           </header>
 
           <section className="mt-5 flex w-full items-center gap-2">
-            <FilterCard />
+            <Suspense fallback={<div className="h-12 w-full animate-pulse bg-primary/5" />}>
+              <FilterCard />
+            </Suspense>
           </section>
 
           {/* SURPRISE */}
