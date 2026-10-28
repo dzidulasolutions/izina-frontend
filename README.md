@@ -1,36 +1,82 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Izina Frontend
 
-## Getting Started
+Interface web de **Izina**, la plateforme communautaire dédiée aux prénoms africains. Elle permet de découvrir, rechercher et explorer le catalogue de prénoms dans une expérience claire, fluide et responsive.
 
-First, run the development server:
+**Démo :** https://izina-frontend.onrender.com
+**API (documentation) :** https://izina-backend.onrender.com/api/docs
+
+> Si la démo est hébergée sur une offre gratuite, le premier chargement après une période d'inactivité peut prendre environ une minute.
+
+## Fonctionnalités
+
+- Navigation dans le catalogue des prénoms
+- Recherche et filtrage des données
+- Expérience moderne et responsive, du mobile à l'ordinateur
+- Composants d'interface dynamiques avec animations
+- Intégration d'éléments visuels et export en image
+
+## Stack technique
+
+| Domaine | Technologies |
+|---|---|
+| Framework | Next.js, React |
+| Langage | TypeScript |
+| Style | Tailwind CSS |
+| Animations | Motion |
+| Export d'images | html-to-image |
+
+## Démarrage
+
+### Prérequis
+
+- Node.js [version à préciser, 20 ou plus récent recommandé]
+- Un gestionnaire de paquets (npm, pnpm ou yarn)
+- Le backend [Izina Backend](https://github.com/dzidulasolutions/izina-backend) lancé en local, ou l'adresse de l'API déployée
+
+### Installation
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/dzidulasolutions/izina-frontend.git
+cd izina-frontend
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Configuration
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Crée un fichier `.env.local` à la racine et renseigne l'adresse de l'API :
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+# [À adapter : utilise le nom de variable réellement lu par le projet]
+NEXT_PUBLIC_API_URL=https://izina-backend.onrender.com
+```
 
-## Learn More
+Ne commite jamais ce fichier.
 
-To learn more about Next.js, take a look at the following resources:
+### Lancement
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+npm run dev        # développement : http://localhost:3000
+npm run build      # build de production
+npm run start      # lancement du build
+npm run lint       # analyse du code
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+*[Vérifie que ces scripts correspondent à ton `package.json`.]*
 
-## Deploy on Vercel
+## Défis techniques
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- **Une interface claire pour un catalogue culturel riche et multiforme** : mise en forme lisible, recherche et filtres qui restent simples malgré la diversité des données.
+- **Une UX fluide sur plusieurs écrans** avec une base technique légère et maintenable.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Projets liés
+
+- **Izina Backend** (API NestJS, authentification, modération communautaire, notifications temps réel) : https://github.com/dzidulasolutions/izina-backend
+- **Izina**, version complète (front et back) : voir le portfolio
+
+## Auteur
+
+Projet personnel conçu et développé en solo par [Ton nom].
+
+## Licence
+
+[À préciser : par exemple MIT, ou « Tous droits réservés »]
